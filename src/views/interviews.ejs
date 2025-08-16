@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taro Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans flex justify-center py-10">
+
+    <div class="w-full max-w-xl"> <!-- ancho máximo y centrado -->
+
+        <section class="text-center mb-8">
+            <h2 class="text-xl font-semibold mb-2">Find Interview Questions</h2>
+            <p class="text-gray-600 mb-4">Discover what data structures and algorithms questions are being asked at top
+                tech companies</p>
+            <input type="text" placeholder="Search companies..." class="border p-2 rounded w-2/3">
+        </section>
+
+        <!-- Vertical list -->
+        <section class="flex flex-col gap-6">
+            <% companies.forEach(company=> {
+                const total = company.totalProblems
+                %>
+                <a href="/interviews/<%= company.name.toLowerCase().replace(/\s+/g, '-') %>" class="group">
+                    <div class="bg-white rounded shadow p-6 mx-auto w-full">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="<%= company.logo %>" alt="<%= company.name %> Logo"
+                                class="w-16 h-16 object-contain">
+                            <div>
+                                <h3 class="text-lg font-bold">
+                                    <%= company.name %>
+                                </h3>
+                                <p class="text-gray-600">
+                                    <%= total %> data structures and algorithms problems
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Combined bar -->
+                        <div class="flex h-6 rounded overflow-hidden bg-gray-200">
+                            <div class="bg-green-500" style="width: <%= (company.difficulties.easy / total) * 100 %>%">
+                            </div>
+                            <div class="bg-yellow-400"
+                                style="width: <%= (company.difficulties.medium / total) * 100 %>%">
+                            </div>
+                            <div class="bg-red-500" style="width: <%= (company.difficulties.hard / total) * 100 %>%">
+                            </div>
+                        </div>
+
+                        <!-- Labels below the bar -->
+                        <div class="flex justify-between mt-1 text-sm text-gray-700">
+                            <span>Easy: <%= company.difficulties.easy %></span>
+                            <span>Medium: <%= company.difficulties.medium %></span>
+                            <span>Hard: <%= company.difficulties.hard %></span>
+                        </div>
+                    </div>
+                </a>
+                <% }) %>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
